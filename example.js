@@ -1,13 +1,11 @@
-var Interface = require("./interface.js")
+// Run with --harmony-proxies flag
+
 
 function Impl(){
 	this.x=5;
 	this.y=10;
 }
 
-var Iface = Interface(function(){
-	this.x =5;
-});
 
 var a = new Impl();
 var b = Iface(a);
@@ -30,7 +28,7 @@ try{
     var b = Iface2(a);
 }catch(e){
 	console.log("Success in enforcement " + e);
-}
+}	
 
 
 

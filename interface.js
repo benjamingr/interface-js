@@ -20,12 +20,19 @@ function Interface(fn){
 
 		// Enforce implementation
 		for(elem in iface){
+			
 			if(!(elem in impl)){
 				throw breach(" Nonexisting member "+elem)
 			}
-			if(typeof iface[elem] === "function"){
-				if(typeof impl[elem] !== "function"){
+			var contract = iface[elem];
+			var tested = impl[elem]
+			if(typeof contract === "function"){
+				if(typeof tested !== "function"){
 					throw breach(" Interface function "+elem+" not a function in implementor")
+				}
+				if(contract.length > tested.length){
+					throw breach(" Interface required function "+elem+" to run with "+contract.length+" params"+
+								 " however implementor's runs with "+tested.length+" params")
 				}
 			}
 		}
