@@ -1,11 +1,20 @@
 function breach(message){
     return new Error("Breach in interface contract: "+message);
 }
-
-function Interface(fn){
+var fastMode
+function Interface(fn,options){
     //get object, or construct if doesn't return object
     var iface = new fn();
+    var options = options || {};
 
+    // Since proxies are still slow, if a "production" option is passed
+    // all the interface does is relay the object
+    if (options.production) {
+        return function (impl) {
+            return impl
+        }
+    }
+    
     return function(impl){
         
         // Proxy handler
@@ -36,7 +45,7 @@ function Interface(fn){
                                  " with "+tested.length+" params")
                 }
             }
-
+            
         }
 
         var p = Proxy.create(handler);
