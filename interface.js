@@ -11,7 +11,7 @@ function Interface(fn,options){
     // all the interface does is relay the object
     if (options.production) {
         return function (impl) {
-            return impl
+            return impl;
         }
     }
     
@@ -31,16 +31,16 @@ function Interface(fn,options){
         for(var elem in iface){
             
             if(!(elem in impl)){
-                throw breach(" Nonexisting member "+elem)
+                throw breach("Nonexisting member "+elem)
             }
             var contract = iface[elem];
             var tested = impl[elem]
             if(typeof contract === "function"){
                 if(typeof tested !== "function"){
-                    throw breach(" Interface function "+elem+" not a function in implementor")
+                    throw breach("Interface function "+elem+" not a function in implementor")
                 }
                 if(contract.length > tested.length){
-                    throw breach(" Interface required function "+elem+" to run with "+
+                    throw breach("Interface required function "+elem+" to run with "+
                                  contract.length+" params however implementor's runs"+
                                  " with "+tested.length+" params")
                 }
