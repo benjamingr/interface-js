@@ -37,7 +37,6 @@ function Interface(fn){
 			}
 		}
 
-
 		var p = Proxy.create(handler);
 		return p;
 	};
