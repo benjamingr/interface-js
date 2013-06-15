@@ -19,3 +19,19 @@ try{
 }catch(e){
 	console.log("Breach of contract prevented!");
 }
+
+var Iface2 = Interface(function(){
+	this.x = 10;
+	this.y = function(){};
+});
+
+var a = new Impl();
+try{
+    var b = Iface2(a);
+}catch(e){
+	console.log("Success in enforcement " + e);
+}
+
+
+
+
