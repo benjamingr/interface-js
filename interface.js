@@ -9,7 +9,7 @@ function Interface(fn, options) {
 
     // Since proxies are still slow, if a "production" option is passed
     // all the interface does is relay the object
-    if (options.production) {
+    if (options.production || typeof Proxy !== "object" ) {
         return function (impl) {
             return impl;
         }
