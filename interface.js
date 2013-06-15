@@ -11,22 +11,14 @@ function Interface(fn){
     			return undefined;
     		}
 		};
+		for(elem in iface){
+			if(!(elem in impl)){
+				throw new Error("Breach in interface contract!")
+			}
+		}
 		var p = Proxy.create(handler);
 		return p;
 	};
 }
 
-function Impl(){
-	this.x=5;
-	this.y=10;
-}
-
-var Iface = Interface(function(){
-	this.x =5;
-});
-
-var a = new Impl();
-var b = Iface(a);
-
-console.log(b.x);
-console.log(b.y);
+module.exports = Interface;
