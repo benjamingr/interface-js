@@ -28,7 +28,7 @@ function Interface(fn,options){
         };
 
         // Enforce implementation
-        for(elem in iface){
+        for(var elem in iface){
             
             if(!(elem in impl)){
                 throw breach(" Nonexisting member "+elem)
