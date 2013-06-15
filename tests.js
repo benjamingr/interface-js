@@ -63,4 +63,21 @@ describe("The interface contract",function(){
 		var b = Iface(new Impl2());
 		assert.equal(b.y.length,3)
 	});
+	it("Checks for optional typing", function () {
+	    var Iface = Interface(function () {
+	        this.y = "number";
+	    },{typecheck:true});
+	    function Impl() {
+	        this.y = 5;
+	    }
+	    function Impl2() {
+	        this.y = " Goat ";
+	    }
+
+	    var c = Iface(new Impl());
+	    assert.equal(c.y, 5);
+	    assert.throws(function () {
+	        var b = Iface(new Impl2());
+	    });
+	});
 });

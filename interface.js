@@ -1,8 +1,8 @@
-function breach(message){
-    return new Error("Breach in interface contract: "+message);
+function breach(message) {
+    return new Error("Breach in interface contract: " + message);
 }
 var fastMode
-function Interface(fn,options){
+function Interface(fn, options) {
     //get object, or construct if doesn't return object
     var iface = new fn();
     var options = options || {};
@@ -14,13 +14,13 @@ function Interface(fn,options){
             return impl;
         }
     }
-    
-    return function(impl){
-        
+
+    return function (impl) {
+
         // Proxy handler
         var handler = {
-            get: function(target, name){
-                if(name in iface){
+            get: function (target, name) {
+                if (name in iface) {
                     return impl[name];
                 }
                 return undefined;
@@ -28,24 +28,34 @@ function Interface(fn,options){
         };
 
         // Enforce implementation
-        for(var elem in iface){
-            
-            if(!(elem in impl)){
-                throw breach("Nonexisting member "+elem)
+        for (var elem in iface) {
+
+            if (!(elem in impl)) {
+                throw breach("Nonexisting member " + elem)
             }
             var contract = iface[elem];
             var tested = impl[elem]
-            if(typeof contract === "function"){
-                if(typeof tested !== "function"){
-                    throw breach("Interface function "+elem+" not a function in implementor")
+            if (typeof contract === "function") {
+                if (typeof tested !== "function") {
+                    throw breach("Interface function " + elem +
+                                 " not a function in implementor")
                 }
-                if(contract.length > tested.length){
-                    throw breach("Interface required function "+elem+" to run with "+
-                                 contract.length+" params however implementor's runs"+
-                                 " with "+tested.length+" params")
+                if (contract.length > tested.length) {
+                    throw breach("Interface required function " + elem + " to run with " +
+                                    contract.length + " params however implementor's runs" +
+                                    " with " + tested.length + " params")
                 }
             }
-            
+
+            // Optional typing
+            if (options.typecheck && (typeof contract === "string") && (contract.length > 0)) {
+                ttype = typeof tested;
+                if (ttype !== contract) {
+                    throw breach("Type Mismatch, expected property" + elem +
+                                 "To be of type" + contract + "Instead got"+
+                                 ttype)
+                }
+            }
         }
 
         var p = Proxy.create(handler);
