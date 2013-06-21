@@ -1,6 +1,6 @@
 // Run with mocha
 
-var Interface = require("./interface.js")
+var Interface = require("./interface5.js")
 var assert = require("assert");
 describe("The interface contract",function(){
 	it("Enforces implementors to implement members",function(){

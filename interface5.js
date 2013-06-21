@@ -9,7 +9,7 @@ function Interface(fn, options) {
 
     // Since proxies are still slow, if a "production" option is passed
     // all the interface does is relay the object
-    if (options.production || typeof Proxy !== "object" ) {
+    if (options.production) {
         return function (impl) {
             return impl;
         }
@@ -54,8 +54,8 @@ function Interface(fn, options) {
             propertiesObject[elem] = {enumerable: true, configurable:false, get: getFunc.bind(null,iface,impl,elem)}
         }
 
-        var p = Proxy.create(handler);
-        return p;
+        var obj = Object.create(null,propertiesObject);
+        return obj;
     };
 
     function getFunc(iface,impl,name){
