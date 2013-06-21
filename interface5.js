@@ -7,7 +7,7 @@ function Interface(fn, options) {
     var iface = new fn();
     var options = options || {};
 
-    // Since proxies are still slow, if a "production" option is passed
+    // Since getters are still slow, if a "production" option is passed
     // all the interface does is relay the object
     if (options.production) {
         return function (impl) {
@@ -17,7 +17,7 @@ function Interface(fn, options) {
 
     return function (impl) {
 
-        // Proxy handler
+        // object properties definitions
         var propertiesObject = {};
 
         // Enforce implementation
