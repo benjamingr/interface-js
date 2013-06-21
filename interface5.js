@@ -9,7 +9,7 @@ function Interface(fn, options) {
 
     // Since getters are still slow, if a "production" option is passed
     // all the interface does is relay the object
-    if (options.production) {
+    if (options.production || Object.defineProperty === undefined) {
         return function (impl) {
             return impl;
         }
