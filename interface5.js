@@ -18,14 +18,7 @@ function Interface(fn, options) {
     return function (impl) {
 
         // Proxy handler
-        var handler = {
-            get: function (target, name) {
-                if (name in iface) {
-                    return impl[name];
-                }
-                return undefined;
-            }
-        };
+        var propertiesObject = {};
 
         // Enforce implementation
         for (var elem in iface) {
@@ -56,11 +49,22 @@ function Interface(fn, options) {
                                  ttype)
                 }
             }
+
+            // define the property
+            propertiesObject[elem] = {enumerable: true, configurable:false, get: getFunc.bind(null,iface,impl,elem)}
         }
 
         var p = Proxy.create(handler);
         return p;
     };
+
+    function getFunc(iface,impl,name){
+        if (name in iface) {
+            return impl[name];
+        }
+        return undefined;
+    }
+            
 }
 
 module.exports = Interface;
